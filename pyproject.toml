@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lapguard"
+version = "0.1.0"
+description = "Laptop anti-theft alarm for Windows and Linux"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+dependencies = [
+    "argon2-cffi>=21.2",
+    "tomli-w>=1.0",
+    "PySide6-Essentials>=6.6",
+    "opencv-python-headless>=4.8",
+    "numpy>=1.26",
+    # Platform adapters: selected by environment markers so one install
+    # command works on both OSes (pip / pipx pick the right ones).
+    "pycaw>=20230407; sys_platform == 'win32'",
+    "evdev>=1.6; sys_platform == 'linux'",
+    "dbus-next>=0.2.3; sys_platform == 'linux'",
+    "pulsectl>=23.5; sys_platform == 'linux'",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pyinstaller>=6.6"]
+
+[project.scripts]
+lapguard = "lapguard.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["lapguard*"]
+
+[tool.setuptools.package-data]
+lapguard = ["assets/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
